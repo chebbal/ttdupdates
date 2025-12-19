@@ -3,15 +3,22 @@ version: '3.8'
 services:
   backend:
     build: ./backend
+    restart: unless-stopped
+    mem_limit: 150m
     ports:
       - "8000:8000"
+
     environment:
       - TARGET_WEBHOOK_URL=http://telegram-bot:5000 # Placeholder if backend pushes
       
   telegram-bot:
     build: ./bots/telegram
+    restart: unless-stopped
+    mem_limit: 150m
     # Loads variables from .env file automatically into the container
     env_file:
+
+
       - .env
     depends_on:
       - backend
